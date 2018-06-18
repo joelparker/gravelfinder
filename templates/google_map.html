@@ -1,0 +1,53 @@
+{% extends "base_layout.html" %}
+{%block head%}
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #google_map {
+        height: 800px;
+      }
+
+    </style>
+{%endblock%}
+{%block content%}
+    <div class="row">
+      <div class="col">
+	<div id="google_map"></div>
+      </div>
+    </div>
+    <script>
+      function create_layer_from(geo_json_file){
+        var layer = new google.maps.Data();
+        layer.loadGeoJson("{{url_for('static',filename='')}}" + geo_json_file);
+        return layer;
+      }
+      var map;
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('google_map'), {
+          center: {lat: 43.6462, lng: -72.4186},
+          zoom: 15
+        });
+        var class_iv_layer = create_layer_from("class4.geojson");
+        class_iv_layer.setStyle({strokeColor:'red'});
+        class_iv_layer.setMap(map);
+
+        var class_v_layer = create_layer_from("class5.geojson");
+        class_v_layer.setStyle({strokeColor:'yellow'});
+        class_v_layer.setMap(map);
+
+        var class_vi_layer = create_layer_from("class6.geojson");
+        class_vi_layer.setStyle({strokeColor:'olive'});
+        class_vi_layer.setMap(map);
+
+        var class_vii_layer = create_layer_from("class7.geojson");
+        class_vii_layer.setStyle({strokeColor:'purple'});
+        class_vii_layer.setMap(map);
+
+        var unpaved_layer = create_layer_from("unpaved.geojson");
+        unpaved_layer.setStyle({strokeColor:'brown'});
+        unpaved_layer.setMap(map);
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap"
+    async defer></script>
+{%endblock%}

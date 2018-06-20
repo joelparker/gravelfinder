@@ -27,6 +27,7 @@
           center: {lat: 43.6462, lng: -72.4186},
           zoom: 15
         });
+
         var class_iv_layer = create_layer_from("class4.geojson");
         class_iv_layer.setStyle({strokeColor:'red'});
         class_iv_layer.setMap(map);
@@ -44,8 +45,9 @@
         class_vii_layer.setMap(map);
 
         var unpaved_layer = create_layer_from("unpaved.geojson");
-        unpaved_layer.setStyle({strokeColor:'brown'});
+        unpaved_layer.setStyle({strokeColor:'brown',strokeOpacity:0.50});
         unpaved_layer.setMap(map);
+
       }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap"

@@ -46,9 +46,12 @@ def generate_unpaved_geojson(vt_centerline_geojson,output_file='./static/unpaved
         road_objects = []
         for feature in vt_centerline_geojson['features']:
             if 'properties' in feature and 'SURFACETYPE' in feature['properties']:
-                road_class = int(feature['properties']['SURFACETYPE'])
-                if road_class !=1 and road_class !=9:
-                    road_objects.append(feature)
+                surface_type = int(feature['properties']['SURFACETYPE'])
+                if surface_type !=1 and surface_type !=9:
+                    #skip class 4 and 7 roads
+                    if 'AOTCLASS' in feature['properties']:
+                        if feature['properties']['AOTCLASS'] not in [4,7]:
+                            road_objects.append(feature)
         print(len(road_objects))
         new_json_data = {}
         new_json_data['type']='FeatureCollection'

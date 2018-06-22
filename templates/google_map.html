@@ -11,6 +11,48 @@
 {%endblock%}
 {%block content%}
     <div class="row">
+      <div class="col-2">
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="" id="class_iv_checkbox" onchange="do_show_hide_layer('#class_iv_checkbox',class_iv_layer)" checked>
+	  <label class="form-check-label" for="class_iv_checkbox">
+	    Class IV
+	  </label>
+	</div>
+      </div>
+      <div class="col-2">
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="" id="class_v_checkbox" onchange="do_show_hide_layer('#class_v_checkbox',class_v_layer)" checked>
+	  <label class="form-check-label" for="class_iv_checkbox">
+	    State Forest Highway
+	  </label>
+	</div>
+      </div>
+      <div class="col-2">
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="class_iv_layer" id="class_vi_checkbox" onchange="do_show_hide_layer('#class_vi_checkbox',class_vi_layer)" checked>
+	  <label class="form-check-label" for="class_iv_checkbox">
+	    National Forest Highway
+	  </label>
+	</div>
+      </div>
+      <div class="col-2">
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="" id="class_vii_checkbox" onchange="do_show_hide_layer('#class_vii_checkbox',class_vii_layer)" checked>
+	  <label class="form-check-label" for="class_iv_checkbox">
+	    Legal Trail
+	  </label>
+	</div>
+      </div>
+      <div class="col-2">
+	<div class="form-check">
+	  <input class="form-check-input" type="checkbox" value="" id="unpaved_checkbox" onchange="do_show_hide_layer('#unpaved_checkbox',unpaved_layer)" checked>
+	  <label class="form-check-label" for="class_iv_checkbox">
+	    Unpaved Roads
+	  </label>
+	</div>
+      </div>
+    </div>
+    <div class="row">
       <div class="col">
 	<div id="google_map"></div>
       </div>
@@ -21,34 +63,50 @@
         layer.loadGeoJson("{{url_for('static',filename='')}}" + geo_json_file);
         return layer;
       }
+      
       var map;
+      var class_iv_layer;
+      var class_v_layer;
+      var class_vi_layer;
+      var class_vii_layer;
+      var unpaved_layer;
+      
       function initMap() {
         map = new google.maps.Map(document.getElementById('google_map'), {
           center: {lat: 43.6462, lng: -72.4186},
           zoom: 15
         });
 
-        var class_iv_layer = create_layer_from("class4.geojson");
+        class_iv_layer = create_layer_from("class4.geojson");
         class_iv_layer.setStyle({strokeColor:'red'});
         class_iv_layer.setMap(map);
 
-        var class_v_layer = create_layer_from("class5.geojson");
+        class_v_layer = create_layer_from("class5.geojson");
         class_v_layer.setStyle({strokeColor:'yellow'});
         class_v_layer.setMap(map);
 
-        var class_vi_layer = create_layer_from("class6.geojson");
+        class_vi_layer = create_layer_from("class6.geojson");
         class_vi_layer.setStyle({strokeColor:'olive'});
         class_vi_layer.setMap(map);
 
-        var class_vii_layer = create_layer_from("class7.geojson");
+        class_vii_layer = create_layer_from("class7.geojson");
         class_vii_layer.setStyle({strokeColor:'purple'});
         class_vii_layer.setMap(map);
 
-        var unpaved_layer = create_layer_from("unpaved.geojson");
+        unpaved_layer = create_layer_from("unpaved.geojson");
         unpaved_layer.setStyle({strokeColor:'brown',strokeOpacity:0.50});
         unpaved_layer.setMap(map);
 
       }
+      function do_show_hide_layer(the_id,the_layer){
+        if($(the_id).is(":checked")){
+          the_layer.setMap(map);
+        }
+        else{
+          the_layer.setMap(null);
+        }
+      }
+
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key={{google_api_key}}&callback=initMap"
     async defer></script>

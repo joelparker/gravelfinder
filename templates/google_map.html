@@ -70,6 +70,7 @@
       var class_vi_layer;
       var class_vii_layer;
       var unpaved_layer;
+      var current_location_marker;
       
       function initMap() {
         map = new google.maps.Map(document.getElementById('google_map'), {
@@ -77,6 +78,18 @@
           zoom: 15
         });
 
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function (position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(initialLocation);
+            //Set location
+            current_location_marker = new google.maps.Marker({position: {lat: position.coords.latitude, lng: position.coords.longitude}
+              ,map:map
+              ,title:"Current location"
+            });
+          });
+        }
+      
         class_iv_layer = create_layer_from("class4.geojson");
         class_iv_layer.setStyle({strokeColor:'red'});
         class_iv_layer.setMap(map);

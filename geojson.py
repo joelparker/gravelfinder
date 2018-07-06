@@ -3,11 +3,27 @@ import requests
 import json
 
 VT_CENTERLINE_GEOJSON_URL='https://opendata.arcgis.com/datasets/1dee5cb935894f9abe1b8e7ccec1253e_39.geojson'
+#ALLOWED_PROPERTIES={'OBJECTID','SN','PRIMARYNAME','RTNAME','SURFACETYPE','ONEWAY','RTNUMBER','ARCMILES','AOTMILES','AOTMILES_CALC','RDFLNAME','DATEMODIFIED','TOWNGEOID','AOTCLASS'}
+ALLOWED_PROPERTIES={'OBJECTID','SURFACETYPE','TOWNGEOID','AOTCLASS'}
 
-def get_centerline_geojson():
+
+def filter_geojson_properties(feature,allowed_properties):
+    if 'properties' in feature:
+        filtered_properties = { allowed_property: feature['properties'][allowed_property] for allowed_property in allowed_properties if allowed_property in feature['properties'] }
+        return filtered_properties
+    return None
+
+def get_centerline_geojson(filter_properties=False):
     r = requests.get(VT_CENTERLINE_GEOJSON_URL)
     if r.status_code == 200:
-        return r.json()
+        if filter_properties:
+            vt_centerline_geojson=r.json()
+            if vt_centerline_geojson is not None and 'features' in vt_centerline_geojson:
+                for index,feature in enumerate(vt_centerline_geojson['features']):
+                    filtered_properties = filter_geojson_properties(feature=feature,allowed_properties=ALLOWED_PROPERTIES)
+                    vt_centerline_geojson['features'][index]['properties'] = filtered_properties
+                return vt_centerline_geojson
+            return r.json()
     return None
 
 def generate_geojson_for_class_range(vt_centerline_geojson,min_road_class=4,max_road_class=7,output_format='./static/class{0}{1}.geojson'):
@@ -60,7 +76,7 @@ def generate_unpaved_geojson(vt_centerline_geojson,output_file='./static/unpaved
             json.dump(new_json_data,outfile)
 
 def main():
-    vt_centerline_geojson=get_centerline_geojson()
+    vt_centerline_geojson=get_centerline_geojson(filter_properties=True)
     generate_unpaved_geojson(vt_centerline_geojson=vt_centerline_geojson)
     for i in range(4,8):
         print('creating file for class {0}'.format(i))

@@ -11,10 +11,6 @@ GOOGLE_API_KEY=config.GOOGLE_API_KEY
 def index():
     return redirect(url_for('label_by_class'))
 
-@app.route('/single_label')
-def first_map():
-    return render_template('map_class_iv_through_vii.html')
-
 @app.route('/label_by_class')
 def label_by_class():
     return render_template('map_by_classifcation.html')

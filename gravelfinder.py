@@ -1,9 +1,11 @@
 from flask import Flask, redirect, url_for, render_template
 import os
+import config
 
 app = Flask(__name__)
 
-GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY','')
+GOOGLE_API_KEY=config.GOOGLE_API_KEY
+#GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY','')
 
 @app.route('/')
 def index():

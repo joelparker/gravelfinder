@@ -49,13 +49,15 @@ require([
     "esri/arcgis/utils",
     "esri/dijit/LayerList",
     "esri/dijit/LocateButton",
-    "dijit/layout/BorderContainer",
+    "esri/dijit/BasemapGallery",
+    "dijit/layout/BorderContainer",    
     "dijit/layout/ContentPane",
     "dojo/domReady!"
 ], function(
     arcgisUtils,
     LayerList,
-    LocateButton
+    LocateButton,
+    BasemapGallery
 ) {
     //Create a map based on an ArcGIS Online web map id
     arcgisUtils.createMap("{{webmap}}", "map").then(function(response){
@@ -65,11 +67,20 @@ require([
            layers: arcgisUtils.getLayerList(map)
         },"layerList");
         myWidget.startup();
+        //GeoLocation Button
         geoLocate = new LocateButton({
           map:map,
           setScale:false
         },"LocateButton");
         geoLocate.startup();
+
+        //Basemap Gallery
+        var basemapGallery = new BasemapGallery({
+          showArcGISBasemaps: true,
+          map: map
+        }, "basemapGallery");
+        basemapGallery.startup();
+
     });
     
 });
@@ -83,6 +94,16 @@ data-dojo-props="design:'headline',gutters:false">
 </div>
 <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" class="map">
   <div id="LocateButton"></div>
+
+  <div style="position:absolute; right:20px; top:10px; z-Index:999;">
+    <div data-dojo-type="dijit/TitlePane" 
+         data-dojo-props="title:'Switch Basemap', open:false">
+      <div data-dojo-type="dijit/layout/ContentPane" style="width:380px; height:280px; overflow:auto;">
+        <div id="basemapGallery"></div>
+      </div>
+    </div>
+  </div>
+  
 </div>
 </div>
 </body>

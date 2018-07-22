@@ -21,6 +21,12 @@ html, body, .container, #map {
 #layerListPane{
     width:25%;
 }
+#LocateButton {
+    position: absolute;
+    top: 95px;
+    left: 20px;
+    z-index: 50;
+}
 .esriLayer{
   background-color: #fff;
 }
@@ -38,25 +44,34 @@ html, body, .container, #map {
 <script>var dojoConfig = { parseOnLoad: true };</script>
 <script src="https://js.arcgis.com/3.25/"></script>
 <script>
+var map;
 require([
     "esri/arcgis/utils",
     "esri/dijit/LayerList",
+    "esri/dijit/LocateButton",
     "dijit/layout/BorderContainer",
     "dijit/layout/ContentPane",
     "dojo/domReady!"
 ], function(
     arcgisUtils,
-    LayerList
+    LayerList,
+    LocateButton
 ) {
     //Create a map based on an ArcGIS Online web map id
     arcgisUtils.createMap("{{webmap}}", "map").then(function(response){
+        map=response.map;
         var myWidget = new LayerList({
            map: response.map,
            layers: arcgisUtils.getLayerList(response)
         },"layerList");
         myWidget.startup();
+        geoLocate = new LocateButton({
+          map:map,
+          setScale:false
+        },"LocateButton");
+        geoLocate.startup();
     });
-
+    
 });
 </script>
 </head>
@@ -66,7 +81,9 @@ data-dojo-props="design:'headline',gutters:false">
 <div id="layerListPane" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'right'">
     <div id="layerList"></div>
 </div>
-<div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"></div>
+<div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'" class="map">
+  <div id="LocateButton"></div>
+</div>
 </div>
 </body>
 </html>

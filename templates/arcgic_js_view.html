@@ -19,7 +19,7 @@ html, body, .container, #map {
     padding:0;
 }
 #layerListPane{
-    width:25%;
+    width:10%;
 }
 #LocateButton {
     position: absolute;
@@ -61,8 +61,8 @@ require([
     arcgisUtils.createMap("{{webmap}}", "map").then(function(response){
         map=response.map;
         var myWidget = new LayerList({
-           map: response.map,
-           layers: arcgisUtils.getLayerList(response)
+           map: map,
+           layers: arcgisUtils.getLayerList(map)
         },"layerList");
         myWidget.startup();
         geoLocate = new LocateButton({

@@ -17,10 +17,13 @@
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 		Maps
               </a>
-	      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-		<a class="dropdown-item" href="{{url_for('label_by_class')}}">Roads by Classifcation</a>
-		<!-- <div class="dropdown-divider"></div> -->
-		<a class="dropdown-item" href="{{url_for('google_map')}}">Google</a>
+	      <div class="dropdown-menu" aria-labelledby="navbarDropdown">		
+		<a class="dropdown-item" href="{{url_for('label_by_class_using_js')}}">Roads by Classification</a>
+		<a class="dropdown-item" href="{{url_for('google_map')}}">Google Map (not working on mobile devices yet)</a>
+		<!--
+		<div class="dropdown-divider"></div>
+		<a class="dropdown-item" href="{{url_for('label_by_class')}}">iFrame loading of Roads by Classification</a>
+		-->
               </div>
 	    </li>
 	    <!--

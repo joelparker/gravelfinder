@@ -4,12 +4,17 @@
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
       #google_map {
-        height: 90vh;
+        height: 85vh;
       }
 
     </style>
 {%endblock%}
 {%block content%}
+    <div class="row">
+      <div class="col" id="button_col">
+	<button type="button" class="btn-sm btn-primary" id="get_location_button" style="display: none">Get Location</button>
+      </div>
+    </div>
     <div class="row">
       <div class="col-2">
 	<div class="form-check">
@@ -58,6 +63,24 @@
       </div>
     </div>
     <script>
+      function ifNavigationLocation(map){
+        if (navigator.geolocation) {
+          //Show button
+          $("#get_location_button").show();
+          $("#get_location_button").click(function(){
+            navigator.geolocation.getCurrentPosition(function (position) {
+            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            map.setCenter(initialLocation);
+            //Set location
+            current_location_marker = new google.maps.Marker({position: {lat: position.coords.latitude, lng: position.coords.longitude}
+              ,map:map
+              ,title:"Current location"
+            });
+            });
+          });          
+        }        
+      }      
+      
       function create_layer_from(geo_json_file){
         var layer = new google.maps.Data();
         layer.loadGeoJson("{{url_for('static',filename='')}}" + geo_json_file);
@@ -70,25 +93,15 @@
       var class_vi_layer;
       var class_vii_layer;
       var unpaved_layer;
-      var current_location_marker;
+      var current_location_marker;      
       
-      function initMap() {
+      function initMap() {        
         map = new google.maps.Map(document.getElementById('google_map'), {
           center: {lat: 43.6462, lng: -72.4186},
           zoom: 15
         });
 
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(function (position) {
-            initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-            map.setCenter(initialLocation);
-            //Set location
-            current_location_marker = new google.maps.Marker({position: {lat: position.coords.latitude, lng: position.coords.longitude}
-              ,map:map
-              ,title:"Current location"
-            });
-          });
-        }
+        ifNavigationLocation(map);
       
         class_iv_layer = create_layer_from("class4.geojson");
         class_iv_layer.setStyle({strokeColor:'red'});

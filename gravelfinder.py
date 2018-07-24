@@ -9,7 +9,7 @@ GOOGLE_API_KEY=config.GOOGLE_API_KEY
 
 @app.route('/')
 def index():
-    return redirect(url_for('label_by_class'))
+    return redirect(url_for('label_by_class_using_js'))
 
 @app.route('/label_by_class')
 def label_by_class():
@@ -23,7 +23,7 @@ def test():
 def google_map():    
     return render_template('google_map.html',google_api_key=GOOGLE_API_KEY)
 
-@app.route('/argis_js')
+@app.route('/centerline')
 def label_by_class_using_js():
     webmap='2e41bf75bf604569a6b7f6583ce71e60'
     return render_template('arcgic_js_view.html',webmap=webmap)

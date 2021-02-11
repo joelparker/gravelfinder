@@ -1,7 +1,7 @@
 {% extends "base_layout.html" %}
 {%block head%}
-<link rel="stylesheet" href="https://js.arcgis.com/3.25/dijit/themes/claro/claro.css">
-<link rel="stylesheet" href="https://js.arcgis.com/3.25/esri/css/esri.css">
+<link rel="stylesheet" href="{{url_for('static',filename='js.arcgis/3.25/claro.css')}}">
+<link rel="stylesheet" href="{{url_for('static',filename='js.arcgis/3.25/esri.css')}}">
 
 <style>
 #map {
@@ -64,7 +64,7 @@
 {%endblock%}
 
 {%block bottom_of_body%}
-<script src="https://js.arcgis.com/3.25/"></script>
+<script src="{{url_for('static',filename='js.arcgis/3.25/init.js')}}"></script>
 <script>
   var dojoConfig = { parseOnLoad: true };
   var map;

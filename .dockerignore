@@ -1,0 +1,8 @@
+Dockerfile
+.dockerignore
+.git
+.gitignore
+venv/*
+*~
+__pycache__/*
+static/*.geojson

@@ -4,6 +4,8 @@ import os
 app = Flask(__name__)
 
 GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY','XXX')
+HOST=os.environ.get('HOST','0.0.0.0')
+PORT=os.environ.get('PORT','5000')
 
 @app.route('/')
 def index():
@@ -27,7 +29,7 @@ def label_by_class_using_js():
     return render_template('arcgic_js_view.html',webmap=webmap)
 
 def main():
-    pass
+    app.run(host=HOST,port=PORT)
 
 if __name__ == '__main__':
     main()

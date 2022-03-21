@@ -14,5 +14,5 @@ RUN python3 ./geojson.py
 
 EXPOSE 5000
 
-ENTRYPOINT ["python3", "./gravelfinder.py"]
+ENTRYPOINT ["gunicorn","--chdir","/gravelfinder","gravelfinder:app", "-w", "2", "--threads","2","-b","0.0.0.0:5000"]
 

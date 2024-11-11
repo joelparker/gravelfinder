@@ -1,7 +1,9 @@
-from flask import Flask, redirect, url_for, render_template
+from flask import Flask, redirect, url_for, render_template, request
 import os
+from prometheus_flask_exporter import PrometheusMetrics
 
 app = Flask(__name__)
+metrics = PrometheusMetrics(app)
 
 GOOGLE_API_KEY=os.environ.get('GOOGLE_API_KEY','XXX')
 HOST=os.environ.get('HOST','0.0.0.0')
@@ -27,6 +29,13 @@ def google_map():
 def label_by_class_using_js():
     webmap='2e41bf75bf604569a6b7f6583ce71e60'
     return render_template('arcgic_js_view.html',webmap=webmap)
+
+metrics.register_default(
+    metrics.counter(
+        'by_path_counter', 'Request Count by Path',
+        labels = {'path' : lambda: request.path}
+    )
+)
 
 def main():
     app.run(host=HOST,port=PORT)

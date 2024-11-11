@@ -1,10 +1,10 @@
-FROM python:3.8
+FROM python:3.9-alpine
 
 #Environment variables
 ENV GOOGLE_API_KEY="<PUT YOUR GOOGLE MAPS API KEY HERE>"
 
 COPY requirements.txt /
-RUN pip3 install -r ./requirements.txt
+RUN pip3 install --no-cache-dir -r ./requirements.txt
 
 COPY . /gravelfinder
 WORKDIR /gravelfinder

@@ -33,10 +33,9 @@ def label_by_class_using_js():
     webmap='2e41bf75bf604569a6b7f6583ce71e60'
     return render_template('arcgic_js_view.html',webmap=webmap)
 
-metrics.info('app_info', 'Application info', version='20251002')
 metrics.register_default(
     metrics.counter(
-        'by_path_counter', 'Request Count by Path',
+        'gravelfinder_by_path_counter', 'Request Count by Path',
         labels = {'path' : lambda: request.path}
     )
 )

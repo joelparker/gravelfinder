@@ -13,6 +13,11 @@ WORKDIR /gravelfinder
 RUN python3 ./geojson.py
 
 EXPOSE 5000
+EXPOSE 9090
 
-ENTRYPOINT ["gunicorn","--chdir","/gravelfinder","gravelfinder:app", "-w", "2", "--threads","2","-b","0.0.0.0:5000"]
+RUN mkdir -p /tmp/metrics
+ENV PROMETHEUS_MULTIPROC_DIR="/tmp/metrics"
+
+#ENTRYPOINT ["gunicorn","--chdir","/gravelfinder","gravelfinder:app", "-w", "2", "--threads","2","-b","0.0.0.0:5000","-b","0.0.0.0:9090"]
+ENTRYPOINT ["gunicorn","--chdir","/gravelfinder","-c","gunicorn_config.py","gravelfinder:app"]
 

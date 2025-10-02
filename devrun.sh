@@ -9,4 +9,11 @@ if [ "x$GOOGLE_API_KEY" = "x" ]; then
 fi
 
 ./geojson.py
-flask run --host=0.0.0.0 --port 8080
+#flask run --host=0.0.0.0 --port 8080
+export PROMETHEUS_MULTIPROC_DIR=./tmp/metrics
+mkdir ./tmp/metrics
+gunicorn -c ./gunicorn_config.py gravelfinder:app
+rm -rf ./tmp/metrics
+
+
+

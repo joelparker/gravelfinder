@@ -15,5 +15,5 @@ prometheus_client==0.25.0
 prometheus_flask_exporter==0.23.2
 requests==2.32.5
 urllib3==2.7.0
-Werkzeug==3.1.8
+Werkzeug==3.1.9
 zipp==3.23.1
